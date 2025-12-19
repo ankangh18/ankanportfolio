@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Online Voting System</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  font-family:Segoe UI, Arial;
+}
+body{
+  margin:0;
+  height:100vh;
+  background:linear-gradient(135deg,#ff9933,#ffffff,#138808);
+}
+.container{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+.card{
+  background:white;
+  width:420px;
+  padding:30px;
+  border-radius:15px;
+  box-shadow:0 15px 35px rgba(0,0,0,0.3);
+  text-align:center;
+}
+h1,h2{
+  color:#0b5ed7;
+}
+input{
+  width:100%;
+  padding:10px;
+  margin:6px 0;
+}
+button{
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  background:#0b5ed7;
+  color:white;
+  border:none;
+  border-radius:8px;
+  font-size:16px;
+  cursor:pointer;
+}
+button:hover{
+  background:#084298;
+}
+.hidden{
+  display:none;
+}
+label{
+  display:block;
+  text-align:left;
+  margin:6px 0;
+}
+.small{
+  font-size:12px;
+  color:#666;
+}
+</style>
+</head>
+
+<body>
+
+<!-- WELCOME PAGE -->
+<div class="container" id="welcome">
+  <div class="card">
+    <h1>Election Commission of India</h1>
+    <p><b>Vote online and fulfill your duty towards the nation 🇮🇳</b></p>
+    <p class="small">
+      This is a demo online voting system developed for hackathon purposes.
+      Each voter can vote only once.
+    </p>
+    <button onclick="goToLogin()">Proceed to Login</button>
+    <p class="small">* Not affiliated with Government of India</p>
+  </div>
+</div>
+
+<!-- LOGIN / REGISTRATION PAGE -->
+<div class="container hidden" id="login">
+  <div class="card">
+    <h2>User Registration</h2>
+
+    <input type="text" placeholder="Full Name" required>
+    <input type="email" placeholder="Email Address" required>
+    <input type="text" placeholder="Phone Number" required>
+    <input type="text" placeholder="House Location">
+    <input type="text" placeholder="Aadhaar Number (Demo)">
+    <input type="text" placeholder="Voter ID (Demo)">
+    <input type="file">
+
+    <button onclick="goToVote()">Login & Continue</button>
+  </div>
+</div>
+
+<!-- VOTING PAGE -->
+<div class="container hidden" id="vote">
+  <div class="card">
+    <h2>Select Your Party</h2>
+
+    <form onsubmit="submitVote(event)">
+      <label><input type="radio" name="party" required> BJP</label>
+      <label><input type="radio" name="party"> Congress</label>
+      <label><input type="radio" name="party"> TMC</label>
+      <label><input type="radio" name="party"> CPI(M)</label>
+      <label><input type="radio" name="party"> Others</label>
+
+      <button type="submit">Submit Vote</button>
+    </form>
+  </div>
+</div>
+
+<!-- THANK YOU PAGE -->
+<div class="container hidden" id="thankyou">
+  <div class="card">
+    <h1>Thank You 🙏</h1>
+    <p>Your vote has been successfully recorded.</p>
+    <p><b>Jai Hind 🇮🇳</b></p>
+  </div>
+</div>
+
+<script>
+function hideAll(){
+  document.getElementById("welcome").classList.add("hidden");
+  document.getElementById("login").classList.add("hidden");
+  document.getElementById("vote").classList.add("hidden");
+  document.getElementById("thankyou").classList.add("hidden");
+}
+
+function goToLogin(){
+  hideAll();
+  document.getElementById("login").classList.remove("hidden");
+}
+
+function goToVote(){
+  if(localStorage.getItem("voted")){
+    alert("You have already voted!");
+    return;
+  }
+  hideAll();
+  document.getElementById("vote").classList.remove("hidden");
+}
+
+function submitVote(e){
+  e.preventDefault();
+  if(localStorage.getItem("voted")){
+    alert("You have already voted!");
+    return;
+  }
+  localStorage.setItem("voted","true");
+  hideAll();
+  document.getElementById("thankyou").classList.remove("hidden");
+
+  setTimeout(()=>{
+    location.reload();
+  },4000);
+}
+</script>
+
+</body>
+</html>
